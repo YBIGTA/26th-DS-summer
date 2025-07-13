@@ -1,0 +1,15 @@
+| Name                  | Value  |
+|-----------------------|--------|
+| longforyou23          | 262.19 |
+| Robocar_Poli          | 257.32 |
+| potato_daegal         | 253.86 |
+| sleepybot             | 216.14 |
+| gangstar              | 212.56 |
+| catnapping_stray_cat  | 194.06 |
+| tayo_the_little_bus   | 169.95 |
+| TreeCollector         | 156.07 |
+| jungyang              | 130.00 |
+| nalbalpgoga           | 129.53 |
+| happylife             | 107.76 |
+| PICASSOL              | 79.75  |
+| Kazuma_Kiryu          | -52.94 |
