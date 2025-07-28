@@ -9,7 +9,7 @@ from pettingzoo.classic import texas_holdem_v4
 # PLAYER1_Q_PATH = 'texas_holdem_sarsa_3_player_1.pkl'
 # PLAYER0_Q_PATH = 'texas_holdem_sarsa_2_player_0.pkl'
 
-PLAYER0_Q_PATH = 'C:/Users/PC/GitHub/26th-DS-summer/Week_1/Texas/Agent/ texas_holdem_sarsa_base_player_0.pkl'
+PLAYER0_Q_PATH = 'C:/Users/PC/GitHub/26th-DS-summer/Week_1/Texas/Agent/texas_holdem_sarsa_base_player_0.pkl'
 PLAYER1_Q_PATH = 'C:/Users/PC/GitHub/26th-DS-summer/Week_1/Texas/Agent/texas_holdem_q_learning_base_player_1.pkl'
 
 
