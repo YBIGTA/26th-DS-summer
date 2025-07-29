@@ -1,8 +1,16 @@
-gymnasium == 0.29.1
-numpy == 1.26.4
-tqdm == 4.66.1
-torch
+# RL 필수
+numpy==2.2.6
+
+tqdm
+
+# Gym 및 Atari 환경
+gymnasium==0.29.1
+ale-py==0.8.1
+shimmy==0.2.1
+autorom
+
+# 영상 전처리 (AtariPreprocessing에 필요)
+opencv-python-headless==4.12.0.88
+
+# 선택 (시각화)
 matplotlib
-gymnasium[box2d]
-opencv-python
-stable-baselines3[extra]
