@@ -1,7 +1,7 @@
 import argparse
 import gymnasium as gym
 import torch
-from assets_hj import DQN, device, preprocess_atari_state
+from assets import DQN, device, preprocess_atari_state
 import warnings
 import shimmy
 

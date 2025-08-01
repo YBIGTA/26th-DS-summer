@@ -18,7 +18,7 @@ def create_environment(env_id, render_mode='rgb_array'):
             from gymnasium.wrappers import AtariPreprocessing
             from gymnasium.wrappers import FrameStack
 
-            # from gymnasium.wrappers import FrameStack  # ✅ 올바른 경로
+            # from gymnasium.wrappers import FrameStack  
             base_env = gym.make(env_id, render_mode=render_mode, frameskip=1)
 
             # base_env = gym.make(env_id, render_mode=render_mode)

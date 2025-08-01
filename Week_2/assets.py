@@ -40,13 +40,11 @@ class ReplayMemory:
             capacity: 버퍼의 최대 크기
         """
         # TODO: deque를 사용해서 최대 크기가 capacity인 메모리 버퍼를 만드세요
-        # Hint: self.memory = deque([], maxlen=capacity)
         pass
 
     def push(self, *args):
         """Transition 저장"""
         # TODO: Transition(*args)를 생성해서 메모리에 추가하세요
-        # Hint: self.memory.append(Transition(*args))
         pass
 
     def sample(self, batch_size):
@@ -58,13 +56,11 @@ class ReplayMemory:
             무작위로 선택된 transition들의 리스트
         """
         # TODO: random.sample을 사용해서 메모리에서 batch_size만큼 랜덤 샘플링하세요
-        # Hint: return random.sample(self.memory, batch_size)
         pass
 
     def __len__(self):
         """현재 메모리에 저장된 transition 개수 반환"""
         # TODO: 메모리 길이를 반환하세요
-        # Hint: return len(self.memory)
         pass
     
 
@@ -84,24 +80,18 @@ class DQN(nn.Module):
         if is_atari:
             # TODO: Atari용 CNN 구조를 구현하세요 (Nature DQN 논문 기반)
             # Hint: Conv2d → ReLU → Conv2d → ReLU → Conv2d → ReLU
-            # 구체적인 구조:
-            # Conv2d(4, 32, kernel_size=8, stride=4) → ReLU
-            # Conv2d(32, 64, kernel_size=4, stride=2) → ReLU  
-            # Conv2d(64, 64, kernel_size=3, stride=1) → ReLU
             
             self.features = nn.Sequential(
                 # TODO: 3개의 Conv2d 레이어와 ReLU 활성화 함수를 추가하세요
             )
             
             # TODO: CNN 출력을 Fully Connected로 연결하는 head 부분을 구현하세요
-            # Hint: Flatten() → Linear(3136, 512) → ReLU → Linear(512, n_actions)
             # 참고: 마지막 Conv2d 출력 크기는 64 * 7 * 7 = 3136입니다
             self.head = nn.Sequential(
                 # TODO: Flatten, Linear, ReLU, Linear 레이어를 추가하세요
             )
         else:
             # TODO: Lunar Lander용 MLP 구조를 구현하세요
-            # Hint: Linear(n_observations, 128) → ReLU → Linear(128, 128) → ReLU → Linear(128, n_actions)
             self.network = nn.Sequential(
                 # TODO: 3개의 Linear 레이어와 2개의 ReLU 활성화 함수를 추가하세요
             )
@@ -116,14 +106,9 @@ class DQN(nn.Module):
         """
         if self.is_atari:
             # TODO: Atari 순전파를 구현하세요
-            # Hint: 
-            # 1. 픽셀 값을 0-1로 정규화: x = x.float() / 255.0
-            # 2. CNN features 통과: x = self.features(x)
-            # 3. head 통과해서 Q값 반환: return self.head(x)
             pass
         else:
             # TODO: Lunar Lander 순전파를 구현하세요
-            # Hint: return self.network(x)
             pass
 
 ####### 여기까지 코드를 작성하세요 #######
