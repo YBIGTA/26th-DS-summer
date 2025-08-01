@@ -98,7 +98,7 @@ def test(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--env_id', type=str, default='LunarLander-v2',
-                        help='Environment ID (e.g., LunarLander-v2, ALE/Breakout-v5)')
+                        help='Environment ID (e.g., LunarLander-v2, ALE/Breakout-v5, ALE/Pong-v5)')
     parser.add_argument('--model_path', type=str, required=True, help='Path to the trained model')
     parser.add_argument('--test_episodes', type=int, default=10, help='Number of episodes to test the agent')
     parser.add_argument('--render_mode', type=str, default='human', help='Render mode')

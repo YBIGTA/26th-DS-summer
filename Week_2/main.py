@@ -145,7 +145,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--env_id', type=str, default='ALE/Breakout-v5', 
-                        help='Environment ID (e.g., LunarLander-v3, ALE/Breakout-v5, ALE/Pong-v5)')
+                        help='Environment ID (e.g., LunarLander-v2, ALE/Breakout-v5, ALE/Pong-v5)')
     parser.add_argument('--render_mode', type=str, default='rgb_array', 
                         help='Render mode (human, rgb_array, None)')
     parser.add_argument('--episodes', type=int, default=100, help='Number of episodes to train the agent')
