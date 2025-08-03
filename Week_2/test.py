@@ -19,12 +19,14 @@ def create_environment(env_id, render_mode='human'):
             from gymnasium.wrappers import FrameStack
                     
             base_env = gym.make(env_id, render_mode=render_mode, frameskip=1)
+            print(f"[디버깅] 환경 행동 목록: {base_env.unwrapped.get_action_meanings()}")
+
             env = FrameStack(
                 AtariPreprocessing(
                     base_env, 
                     scale_obs=True,
                     grayscale_obs=True,
-                    terminal_on_life_loss=True
+                    terminal_on_life_loss=False
                 ), 
                 4
             )
@@ -55,6 +57,10 @@ def test(args):
     policy_net = DQN(state_size, action_size, is_atari).to(device)
     policy_net.load_state_dict(torch.load(args.model_path, map_location=device))
     policy_net.eval()
+    
+    print("[디버깅] policy_net 구조:")
+    print(policy_net)
+
 
     total_rewards = []
 
@@ -65,19 +71,34 @@ def test(args):
 
     for i_episode in range(args.test_episodes):
         observation, info = env.reset()
+        print(f"[디버깅] 초기 observation type: {type(observation)}")
+        print(f"[디버깅] 초기 observation shape: {getattr(observation, 'shape', 'No shape')}")
+
         
         if is_atari:
             state = preprocess_atari_state(observation)
+            print(f"[디버깅] state shape: {state.shape}, dtype: {state.dtype}, max: {state.max().item()}, min: {state.min().item()}")
+
         else:
             state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
         
         total_reward = 0
         done = False
-        
-        while not done:
+        max_steps = 1000 # 너무 높게 설정하면 Breakout에서는 오래 걸릴 수 있음
+        step_count = 0
+
+        if is_atari and args.env_id.startswith("ALE/Breakout"):
+            FIRE_ACTION = 1  # 확인된 FIRE index
+            for _ in range(2):  # 공이 실제로 발사되도록 2번 실행
+                observation, reward, terminated, truncated, _ = env.step(FIRE_ACTION)
+                total_reward += reward
+
+
+        while not done and step_count < max_steps:
             with torch.no_grad():
                 action = policy_net(state).max(1).indices.view(1, 1)
-            
+            step_count += 1
+
             observation, reward, terminated, truncated, _ = env.step(action.item())
             total_reward += reward
 
@@ -97,10 +118,10 @@ def test(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env_id', type=str, default='LunarLander-v2',
-                        help='Environment ID (e.g., LunarLander-v2, ALE/Breakout-v5, ALE/Pong-v5)')
+    parser.add_argument('--env_id', type=str, default='ALE/Breakout-v5',
+                        help='Environment ID (e.g., LunarLander-v2, ALE/Pong-v5,ALE/Breakout-v5)')
     parser.add_argument('--model_path', type=str, required=True, help='Path to the trained model')
-    parser.add_argument('--test_episodes', type=int, default=10, help='Number of episodes to test the agent')
+    parser.add_argument('--test_episodes', type=int, default=50, help='Number of episodes to test the agent')
     parser.add_argument('--render_mode', type=str, default='human', help='Render mode')
     args = parser.parse_args()
     test(args)
