@@ -57,7 +57,7 @@ class ReplayMemory:
 
 # DQN 모델을 구현해주세요! Atari Game에선 CNN 모듈을 사용하지만, 구현은 간단하게 MLP로 해도 됩니다. 성능을 비교해보며 자유로이 구현해보세요! 
 class DQN(nn.Module):
-    def __init__(self, n_observations, n_actions):
+    def __init__(self, n_observations, n_actions, is_atari=False):
         super(DQN, self).__init__()
         pass
 
