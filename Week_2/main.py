@@ -19,7 +19,7 @@ def create_environment(env_id, render_mode='rgb_array'):
             from gymnasium.wrappers import FrameStack
 
             # from gymnasium.wrappers import FrameStack  
-            base_env = gym.make(env_id, render_mode=render_mode, frameskip=1)
+            base_env = gym.make(env_id, render_mode=render_mode,frameskip=1)
 
             # base_env = gym.make(env_id, render_mode=render_mode)
             # Atari 전처리: 그레이스케일, 리사이즈, 프레임 스킵 등
@@ -28,7 +28,7 @@ def create_environment(env_id, render_mode='rgb_array'):
                     base_env, 
                     scale_obs=True,  # 84x84로 리사이즈
                     grayscale_obs=True,  # 그레이스케일 변환
-                    terminal_on_life_loss=True  # 생명 잃으면 에피소드 종료
+                    terminal_on_life_loss=False  # 생명 잃으면 에피소드 종료
                 ), 
                 4  # 4프레임 스택
             )
@@ -78,17 +78,22 @@ def main(args):
     print(f"Atari 환경: {is_atari}")
     print(f"상태 크기: {state_size}")
     print(f"행동 크기: {action_size}")
+    print("Action meanings:", env.unwrapped.get_action_meanings())
 
     for i_episode in tqdm(range(args.episodes)):
         observation, info = env.reset()
-        
+        total_reward = 0
+        if is_atari and args.env_id.startswith("ALE/Breakout"):
+            FIRE_ACTION = 1  # ← FIRE의 index
+            for _ in range(2):  # 두 번 발사 시도
+                observation, reward, terminated, truncated, _ = env.step(FIRE_ACTION)
+                total_reward += reward
+
         if is_atari:
             state = preprocess_atari_state(observation)
         else:
             state = torch.tensor(observation, dtype=torch.float32, device=device).unsqueeze(0)
-        
-        total_reward = 0
-        
+            
         for t in count():
             action = agent.select_action(state)
             observation, reward, terminated, truncated, _ = env.step(action.item())
@@ -107,8 +112,8 @@ def main(args):
 
             agent.memory.push(state, action, next_state, reward)
             state = next_state
-
-            agent.optimize_model()
+            if len(agent.memory) >= 1000:
+                agent.optimize_model()
 
             # Soft update of target network
             target_net_state_dict = agent.target_net.state_dict()
@@ -156,7 +161,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--batch_size', type=int, default=64, help='Batch size for training')
     parser.add_argument('--tau', type=float, default=0.005, help='Soft update coefficient for target network')
-    parser.add_argument('--target_update', type=int, default=10, help='Number of episodes between target network updates')
+    parser.add_argument('--target_update', type=int, default=1000, help='Number of episodes between target network updates')
     parser.add_argument('--save_path', type=str, default='dqn_lunarlander.pth', help='Path to save the trained model')
     args = parser.parse_args()
     main(args)
