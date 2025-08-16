@@ -1,0 +1,13 @@
+{
+  "hidden_dims": [128, 32],
+  "activation_fn": "relu",
+  "n_steps": 128,
+  "batch_size": 512,
+  "policy_lr": 0.007,
+  "value_lr": 0.004,
+  "gamma": 0.95,
+  "vf_coef": 0.7,
+  "ent_coef": 0.3,
+  "max_grad_norm": 0.5,
+  "gae_lambda": 0.8
+}
